@@ -4,6 +4,7 @@ import com.devsuperior.bds04.dto.CityDTO;
 import com.devsuperior.bds04.service.CityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -23,6 +24,7 @@ public class CityController {
         return ResponseEntity.ok(list);
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @PostMapping
     public ResponseEntity<CityDTO> insert(@RequestBody CityDTO dto) {
         dto = service.insert(dto);
