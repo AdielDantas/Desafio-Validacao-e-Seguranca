@@ -18,7 +18,6 @@ public class SecurityConfig {
         return http.build();
     }
 
-
     @Bean
     @Profile("test")
     @Order(1)
