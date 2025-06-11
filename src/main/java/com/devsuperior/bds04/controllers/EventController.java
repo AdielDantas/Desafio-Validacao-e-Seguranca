@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.util.List;
 
 @RestController
 @RequestMapping(value = "/events")
@@ -26,7 +25,7 @@ public class EventController {
         return ResponseEntity.ok().body(list);
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT')")
+    @PreAuthorize("hasAnyRole('ROLE_CLIENT', 'ROLE_ADMIN')")
     @PostMapping
     public ResponseEntity<EventDTO> insert(@RequestBody EventDTO dto) {
         dto = service.insert(dto);

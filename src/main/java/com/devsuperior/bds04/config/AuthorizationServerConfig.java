@@ -48,10 +48,10 @@ import java.util.UUID;
 @Configuration
 public class AuthorizationServerConfig {
 
-	@Value("${security.client-id}")
+	@Value("${security.oauth2.client.client-id}")
 	private String clientId;
 
-	@Value("${security.client-secret}")
+	@Value("${security.oauth2.client.client-secret}")
 	private String clientSecret;
 
 	@Value("${security.jwt.duration}")
@@ -73,9 +73,9 @@ public class AuthorizationServerConfig {
 
 		// @formatter:off
 		http.getConfigurer(OAuth2AuthorizationServerConfigurer.class)
-			.tokenEndpoint(tokenEndpoint -> tokenEndpoint
-				.accessTokenRequestConverter(new CustomPasswordAuthenticationConverter())
-				.authenticationProvider(new CustomPasswordAuthenticationProvider(authorizationService(), tokenGenerator(), userDetailsService, passwordEncoder)));
+				.tokenEndpoint(tokenEndpoint -> tokenEndpoint
+						.accessTokenRequestConverter(new CustomPasswordAuthenticationConverter())
+						.authenticationProvider(new CustomPasswordAuthenticationProvider(authorizationService(), tokenGenerator(), userDetailsService, passwordEncoder)));
 
 		http.oauth2ResourceServer(oauth2ResourceServer -> oauth2ResourceServer.jwt(Customizer.withDefaults()));
 		// @formatter:on
@@ -97,15 +97,15 @@ public class AuthorizationServerConfig {
 	public RegisteredClientRepository registeredClientRepository() {
 		// @formatter:off
 		RegisteredClient registeredClient = RegisteredClient
-			.withId(UUID.randomUUID().toString())
-			.clientId(clientId)
-			.clientSecret(passwordEncoder.encode(clientSecret))
-			.scope("read")
-			.scope("write")
-			.authorizationGrantType(new AuthorizationGrantType("password"))
-			.tokenSettings(tokenSettings())
-			.clientSettings(clientSettings())
-			.build();
+				.withId(UUID.randomUUID().toString())
+				.clientId(clientId)
+				.clientSecret(passwordEncoder.encode(clientSecret))
+				.scope("read")
+				.scope("write")
+				.authorizationGrantType(new AuthorizationGrantType("password"))
+				.tokenSettings(tokenSettings())
+				.clientSettings(clientSettings())
+				.build();
 		// @formatter:on
 
 		return new InMemoryRegisteredClientRepository(registeredClient);
@@ -115,9 +115,9 @@ public class AuthorizationServerConfig {
 	public TokenSettings tokenSettings() {
 		// @formatter:off
 		return TokenSettings.builder()
-			.accessTokenFormat(OAuth2TokenFormat.SELF_CONTAINED)
-			.accessTokenTimeToLive(Duration.ofSeconds(jwtDurationSeconds))
-			.build();
+				.accessTokenFormat(OAuth2TokenFormat.SELF_CONTAINED)
+				.accessTokenTimeToLive(Duration.ofSeconds(jwtDurationSeconds))
+				.build();
 		// @formatter:on
 	}
 
@@ -149,8 +149,8 @@ public class AuthorizationServerConfig {
 			if (context.getTokenType().getValue().equals("access_token")) {
 				// @formatter:off
 				context.getClaims()
-					.claim("authorities", authorities)
-					.claim("username", user.getUsername());
+						.claim("authorities", authorities)
+						.claim("username", user.getUsername());
 				// @formatter:on
 			}
 		};
