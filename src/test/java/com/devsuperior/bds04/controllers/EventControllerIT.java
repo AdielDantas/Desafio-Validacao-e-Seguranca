@@ -53,7 +53,7 @@ public class EventControllerIT {
 		
 		clientToken = tokenUtil.obtainAccessToken(mockMvc, clientUsername, clientPassword);
 		adminToken = tokenUtil.obtainAccessToken(mockMvc, adminUsername, adminPassword);
-		invalidToken = adminToken + "xpto"; // Simulates a wrong token
+		invalidToken = "invalid-token"; // Simulates a wrong token
 	}
 
 	@Test
